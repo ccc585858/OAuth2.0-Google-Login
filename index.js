@@ -5,6 +5,8 @@ const app = express();
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth-routes");
 require("./config/passport");
+const session = require("express-session");
+const passport = require("passport");
 
 // 連結 MongoDB
 mongoose
@@ -20,6 +22,16 @@ mongoose
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+  })
+);
+app.use(passport.initialize()); // 讓 passport 運行他的驗證功能
+app.use(passport.session()); // 讓 passport 可以使用 session
 
 // 設定 routes
 app.use("/auth", authRoutes);
