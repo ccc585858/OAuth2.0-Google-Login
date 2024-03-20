@@ -8,10 +8,11 @@ const profileRoutes = require("./routes/profile-routes");
 require("./config/passport");
 const session = require("express-session");
 const passport = require("passport");
+const flash = require("connect-flash");
 
 // 連結 MongoDB
 mongoose
-  .connect("mongodb://127.0.0.1:27017/GoogoleDB")
+  .connect("mongodb://127.0.0.1:27017/GoogleDB")
   .then(() => {
     console.log("Connect to mongodb...");
   })
@@ -33,6 +34,13 @@ app.use(
 );
 app.use(passport.initialize()); // 讓 passport 運行他的驗證功能
 app.use(passport.session()); // 讓 passport 可以使用 session
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 // 設定 routes
 app.use("/auth", authRoutes);
