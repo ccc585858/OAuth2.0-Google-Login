@@ -51,6 +51,17 @@ router.post("/signup", async (req, res) => {
   return res.redirect("/auth/login");
 });
 
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/auth/login",
+    failureFlash: "登入失敗，帳號或密碼不正確。",
+  }),
+  (req, res) => {
+    return res.redirect("/profile");
+  }
+);
+
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   console.log("進入 redirect 區域");
   return res.redirect("/profile");
