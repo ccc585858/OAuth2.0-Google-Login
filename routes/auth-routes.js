@@ -63,7 +63,7 @@ router.post(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  console.log("進入 redirect 區域");
+  // console.log("進入 redirect 區域");
   return res.redirect("/profile");
 });
 

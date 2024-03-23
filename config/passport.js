@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 
 passport.serializeUser((user, done) => {
   // 這邊的 done 和下面的 done 並無關聯
-  console.log("Serialize 使用者...");
+  // console.log("Serialize 使用者...");
   // console.log(user);
   done(null, user._id);
   /**
@@ -16,9 +16,9 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (_id, done) => {
-  console.log(
-    "Deserializer 使用者...使用 SerializeUser 儲存的 id，去找到資料庫內的資料"
-  );
+  // console.log(
+  //   "Deserializer 使用者...使用 SerializeUser 儲存的 id，去找到資料庫內的資料"
+  // );
   let foundUser = await User.findOne({ _id });
   done(null, foundUser); // 將 req.user 這個屬性設定為 foundUser
 });
@@ -31,7 +31,7 @@ passport.use(
       callbackURL: "/auth/google/redirect",
     }, // function...
     async (accessToken, refreshToken, profile, done) => {
-      console.log("進入 Google Strategy 的區域");
+      // console.log("進入 Google Strategy 的區域");
       // console.log(profile);
       // console.log("------------------------");
       let foundUser = await User.findOne({ googleID: profile.id }).exec();
